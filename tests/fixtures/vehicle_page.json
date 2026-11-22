@@ -1,0 +1,342 @@
+{
+ "count_all": 19524,
+ "lines": 1,
+ "start": 1,
+ "filters": {
+  "c": "Auto",
+  "lim": "",
+  "q": "panda",
+  "sort": "",
+  "start": ""
+ },
+ "ads": [
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000006:list:900000006",
+   "type": {
+    "key": "s",
+    "value": "In vendita",
+    "weight": 0
+   },
+   "category": {
+    "key": "2",
+    "value": "Auto",
+    "friendly_name": "auto",
+    "macrocategory_id": "1",
+    "weight": 1
+   },
+   "subject": "Fiat Panda 1.2 Climbing Natural Power - Metano - S",
+   "body": "Descrizione di esempio dell'annuncio 6.",
+   "dates": {
+    "display": "2026-11-21 15:18:11",
+    "expiration": "2027-11-17 20:10:34",
+    "display_iso8601": "2026-11-21T15:18:11.824+0100",
+    "expiration_iso8601": "2027-11-17T20:10:34.254+0100"
+   },
+   "images": [
+    {
+     "uri": "imgid:fake-6",
+     "base_url": "https://images.example.test/subito/6",
+     "cdn_base_url": "https://images.example.test/subito/6"
+    }
+   ],
+   "images_360": [],
+   "features": [
+    {
+     "type": "list",
+     "uri": "/pollution",
+     "label": "Classe emissioni",
+     "values": [
+      {
+       "key": "5",
+       "value": "Euro 4",
+       "weight": 9
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/warranty_months",
+     "label": "Garanzia",
+     "values": [
+      {
+       "key": "12",
+       "value": "12 mesi"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/gearbox",
+     "label": "Cambio",
+     "values": [
+      {
+       "key": "1",
+       "value": "Manuale",
+       "weight": 1
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/newdrivers_only",
+     "label": "Per neopatentati",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/car_type",
+     "label": "Carrozzeria",
+     "values": [
+      {
+       "key": "8",
+       "value": "City Car",
+       "weight": 7
+      }
+     ]
+    },
+    {
+     "type": "pack",
+     "uri": "/car",
+     "label": "Auto",
+     "values": [
+      {
+       "key": "000008",
+       "value": "FIAT",
+       "weight": 87,
+       "level": 0,
+       "label": "Marca"
+      },
+      {
+       "key": "003415",
+       "value": "Panda 2ª serie",
+       "weight": 52,
+       "group_key": "000024",
+       "group_label": "Panda",
+       "level": 1,
+       "label": "Modello"
+      },
+      {
+       "key": "076005",
+       "value": "Panda 1.2 Climbing Natural Power",
+       "weight": 20,
+       "level": 2,
+       "label": "Versione"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/fuel",
+     "label": "Carburante",
+     "values": [
+      {
+       "key": "7",
+       "value": "Benzina/Metano",
+       "weight": 11
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shippable",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "0",
+       "value": "No"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/seats",
+     "label": "Posti",
+     "values": [
+      {
+       "key": "3",
+       "value": "4",
+       "weight": 3
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/vehicle_status",
+     "label": "Condizioni del veicolo",
+     "values": [
+      {
+       "key": "1",
+       "value": "Usato",
+       "weight": 0
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/color",
+     "label": "Colore",
+     "values": [
+      {
+       "key": "1",
+       "value": "Bianco",
+       "weight": 1
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/price",
+     "label": "Prezzo",
+     "values": [
+      {
+       "key": "3850",
+       "value": "3850 €"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/doors",
+     "label": "Numero di porte",
+     "values": [
+      {
+       "key": "2",
+       "value": "4/5",
+       "weight": 2
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/mileage",
+     "label": "Km",
+     "values": [
+      {
+       "key": "31",
+       "value": "200.000 - 249.999",
+       "weight": 31
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/mileage_scalar",
+     "label": "Km",
+     "values": [
+      {
+       "key": "215000",
+       "value": "215000 Km"
+      }
+     ]
+    },
+    {
+     "type": "string",
+     "uri": "/power",
+     "label": "Potenza",
+     "values": [
+      {
+       "key": "44/60",
+       "value": "44 kW / 60 Cv",
+       "label": "Potenza"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/year",
+     "label": "Anno di immatricolazione",
+     "values": [
+      {
+       "key": "2009",
+       "value": "2009",
+       "weight": 35
+      }
+     ]
+    },
+    {
+     "type": "string",
+     "uri": "/register_date",
+     "label": "Immatricolazione",
+     "values": [
+      {
+       "key": "03/2009",
+       "value": "03/2009",
+       "label": "Immatricolazione"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/month",
+     "label": "Mese di immatricolazione",
+     "values": [
+      {
+       "key": "3",
+       "value": "Marzo",
+       "weight": 2
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "506",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "11",
+     "uri": "/region",
+     "value": "Lazio",
+     "friendly_name": "lazio",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "11,10,12,13,14,15,9"
+    },
+    "city": {
+     "key": "4",
+     "uri": "/city",
+     "value": "Roma",
+     "label": "Provincia",
+     "friendly_name": "roma",
+     "short_name": "RM",
+     "level": 1,
+     "istat": "058",
+     "region_id": "11"
+    },
+    "town": {
+     "key": "058047",
+     "uri": "/town",
+     "value": "Guidonia Montecelio",
+     "label": "Comune",
+     "level": 2,
+     "istat": "058047",
+     "region_id": "11",
+     "city_id": "4",
+     "has_zone": false,
+     "friendly_name": "guidonia-montecelio",
+     "lat": 41.999815,
+     "lon": 12.726347
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/auto/annuncio-di-esempio-900000006.htm",
+    "mobile": "https://www.subito.it/auto/annuncio-di-esempio-900000006.htm"
+   },
+   "visibility_options": {
+    "gallery": false,
+    "urgent": false,
+    "geoboost": "11"
+   }
+  }
+ ]
+}

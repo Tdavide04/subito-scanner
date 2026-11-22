@@ -1,0 +1,872 @@
+{
+ "count_all": 1736,
+ "lines": 5,
+ "start": 5,
+ "filters": {
+  "lim": "",
+  "q": "resident evil",
+  "sort": "",
+  "start": ""
+ },
+ "ads": [
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000001:list:900000001",
+   "type": {
+    "key": "s",
+    "value": "In vendita",
+    "weight": 0
+   },
+   "category": {
+    "key": "44",
+    "value": "Console e Videogiochi",
+    "friendly_name": "videogiochi",
+    "macrocategory_id": "9",
+    "weight": 24
+   },
+   "subject": "PlayStation 4",
+   "body": "Descrizione di esempio dell'annuncio 1.",
+   "dates": {
+    "display": "2026-11-21 14:43:55",
+    "expiration": "2027-11-21 14:43:55",
+    "display_iso8601": "2026-11-21T14:43:55.133+0100",
+    "expiration_iso8601": "2027-11-21T14:43:55.133+0100"
+   },
+   "images": [
+    {
+     "uri": "imgid:fake-1",
+     "base_url": "https://images.example.test/subito/1",
+     "cdn_base_url": "https://images.example.test/subito/1"
+    }
+   ],
+   "images_360": [],
+   "features": [
+    {
+     "type": "bool",
+     "uri": "/item_shipping_allowed",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_package_size",
+     "label": "Peso del pacco",
+     "values": [
+      {
+       "key": "20",
+       "value": "Medio - fino a 5kg",
+       "weight": 1
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/shipping_carriers",
+     "label": "Corrieri per la spedizione",
+     "values": [
+      {
+       "key": "poste_italiane",
+       "value": "poste_italiane"
+      },
+      {
+       "key": "ups",
+       "value": "ups"
+      },
+      {
+       "key": "inpost",
+       "value": "inpost"
+      },
+      {
+       "key": "bartolini",
+       "value": "bartolini"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_condition",
+     "label": "Condizione",
+     "values": [
+      {
+       "key": "20",
+       "value": "Come nuovo - perfetto o ricondizionato",
+       "weight": 2,
+       "description": "Oggetto in perfette condizioni oppure rigenerato con parti sostitutive senza difetti."
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/price",
+     "label": "Prezzo",
+     "values": [
+      {
+       "key": "140",
+       "value": "140 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shippable",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_type",
+     "label": "Metodo di spedizione",
+     "values": [
+      {
+       "key": "0",
+       "value": "Spedizione con TuttoSubito",
+       "weight": 1
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/item_shipping_cost_tuttosubito",
+     "label": "Costo della spedizione",
+     "values": [
+      {
+       "key": "2,99",
+       "value": "2,99 €"
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "501",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "6",
+     "uri": "/region",
+     "value": "Veneto",
+     "friendly_name": "veneto",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "6,4,5,7,8"
+    },
+    "city": {
+     "key": "7",
+     "uri": "/city",
+     "value": "Vicenza",
+     "label": "Provincia",
+     "friendly_name": "vicenza",
+     "short_name": "VI",
+     "level": 1,
+     "istat": "024",
+     "region_id": "6"
+    },
+    "town": {
+     "key": "024100",
+     "uri": "/town",
+     "value": "Schio",
+     "label": "Comune",
+     "level": 2,
+     "istat": "024100",
+     "region_id": "6",
+     "city_id": "7",
+     "has_zone": false,
+     "friendly_name": "schio",
+     "lat": 45.713077,
+     "lon": 11.356994
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000001.htm",
+    "mobile": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000001.htm"
+   }
+  },
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000002:list:900000002",
+   "type": {
+    "key": "s",
+    "value": "In vendita",
+    "weight": 0
+   },
+   "category": {
+    "key": "21",
+    "value": "Collezionismo",
+    "friendly_name": "hobby-collezionismo",
+    "macrocategory_id": "18",
+    "weight": 42
+   },
+   "subject": "gioco da tavolo",
+   "body": "Descrizione di esempio dell'annuncio 2.",
+   "dates": {
+    "display": "2026-11-21 14:29:57",
+    "expiration": "2027-11-21 14:29:57",
+    "display_iso8601": "2026-11-21T14:29:57.539+0100",
+    "expiration_iso8601": "2027-11-21T14:29:57.539+0100"
+   },
+   "images": [
+    {
+     "uri": "imgid:fake-2",
+     "base_url": "https://images.example.test/subito/2",
+     "cdn_base_url": "https://images.example.test/subito/2"
+    }
+   ],
+   "images_360": [],
+   "features": [
+    {
+     "type": "list",
+     "uri": "/item_condition",
+     "label": "Condizione",
+     "values": [
+      {
+       "key": "10",
+       "value": "Nuovo - mai usato in confezione originale",
+       "weight": 1,
+       "description": "Oggetto nuovo con cartellino o confezione originale mai utilizzato e senza difetti."
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/price",
+     "label": "Prezzo",
+     "values": [
+      {
+       "key": "180",
+       "value": "180 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shippable",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "0",
+       "value": "No"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/hobby_type",
+     "label": "Tipologia della collezione",
+     "values": [
+      {
+       "key": "7",
+       "value": "Altro",
+       "weight": 10
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "502",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "4",
+     "uri": "/region",
+     "value": "Lombardia",
+     "friendly_name": "lombardia",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "4,2,5,6,8"
+    },
+    "city": {
+     "key": "9",
+     "uri": "/city",
+     "value": "Monza e della Brianza",
+     "label": "Provincia",
+     "friendly_name": "monza",
+     "short_name": "MB",
+     "level": 1,
+     "istat": "108",
+     "region_id": "4"
+    },
+    "town": {
+     "key": "108028",
+     "uri": "/town",
+     "value": "Lissone",
+     "label": "Comune",
+     "level": 2,
+     "istat": "108028",
+     "region_id": "4",
+     "city_id": "9",
+     "has_zone": false,
+     "friendly_name": "lissone",
+     "lat": 45.610637,
+     "lon": 9.243849
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/hobby-collezionismo/annuncio-di-esempio-900000002.htm",
+    "mobile": "https://www.subito.it/hobby-collezionismo/annuncio-di-esempio-900000002.htm"
+   }
+  },
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000003:list:900000003",
+   "type": {
+    "key": "s",
+    "value": "In vendita",
+    "weight": 0
+   },
+   "category": {
+    "key": "44",
+    "value": "Console e Videogiochi",
+    "friendly_name": "videogiochi",
+    "macrocategory_id": "9",
+    "weight": 24
+   },
+   "subject": "Lotto PS1 PAL ITA: Resident Evil 1 2 3 Dino Crisis",
+   "body": "Descrizione di esempio dell'annuncio 3.",
+   "dates": {
+    "display": "2026-11-21 14:15:30",
+    "expiration": "2027-11-21 14:15:30",
+    "display_iso8601": "2026-11-21T14:15:30.335+0100",
+    "expiration_iso8601": "2027-11-21T14:15:30.335+0100"
+   },
+   "images": [
+    {
+     "uri": "imgid:fake-3",
+     "base_url": "https://images.example.test/subito/3",
+     "cdn_base_url": "https://images.example.test/subito/3"
+    }
+   ],
+   "images_360": [],
+   "features": [
+    {
+     "type": "number",
+     "uri": "/price",
+     "label": "Prezzo",
+     "values": [
+      {
+       "key": "235",
+       "value": "235 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shippable",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_type",
+     "label": "Metodo di spedizione",
+     "values": [
+      {
+       "key": "0",
+       "value": "Spedizione con TuttoSubito",
+       "weight": 1
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/item_shipping_cost_tuttosubito",
+     "label": "Costo della spedizione",
+     "values": [
+      {
+       "key": "0,99",
+       "value": "0,99 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shipping_allowed",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_package_size",
+     "label": "Peso del pacco",
+     "values": [
+      {
+       "key": "10",
+       "value": "Piccolo - fino a 2kg",
+       "weight": 0
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/shipping_carriers",
+     "label": "Corrieri per la spedizione",
+     "values": [
+      {
+       "key": "poste_italiane",
+       "value": "poste_italiane"
+      },
+      {
+       "key": "ups",
+       "value": "ups"
+      },
+      {
+       "key": "inpost",
+       "value": "inpost"
+      },
+      {
+       "key": "bartolini",
+       "value": "bartolini"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_condition",
+     "label": "Condizione",
+     "values": [
+      {
+       "key": "30",
+       "value": "Ottimo - poco usato e ben conservato",
+       "weight": 3,
+       "description": "Oggetto usato poche volte che potrebbe presentare piccole imperfezioni."
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "503",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "6",
+     "uri": "/region",
+     "value": "Veneto",
+     "friendly_name": "veneto",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "6,4,5,7,8"
+    },
+    "city": {
+     "key": "7",
+     "uri": "/city",
+     "value": "Vicenza",
+     "label": "Provincia",
+     "friendly_name": "vicenza",
+     "short_name": "VI",
+     "level": 1,
+     "istat": "024",
+     "region_id": "6"
+    },
+    "town": {
+     "key": "024078",
+     "uri": "/town",
+     "value": "Piovene Rocchette",
+     "label": "Comune",
+     "level": 2,
+     "istat": "024078",
+     "region_id": "6",
+     "city_id": "7",
+     "has_zone": false,
+     "friendly_name": "piovene-rocchette",
+     "lat": 45.758865,
+     "lon": 11.430089
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000003.htm",
+    "mobile": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000003.htm"
+   }
+  },
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000004:list:900000004",
+   "type": {
+    "key": "s",
+    "value": "In vendita",
+    "weight": 0
+   },
+   "category": {
+    "key": "44",
+    "value": "Console e Videogiochi",
+    "friendly_name": "videogiochi",
+    "macrocategory_id": "9",
+    "weight": 24
+   },
+   "subject": "Ps4 pro 1TB + PLAYSTATION VR + 8  GIOCHI",
+   "body": "Descrizione di esempio dell'annuncio 4.",
+   "dates": {
+    "display": "2026-11-21 14:01:48",
+    "expiration": "2027-11-21 14:01:48",
+    "display_iso8601": "2026-11-21T14:01:48.799+0100",
+    "expiration_iso8601": "2027-11-21T14:01:48.799+0100"
+   },
+   "images": [],
+   "images_360": [],
+   "features": [
+    {
+     "type": "number",
+     "uri": "/price",
+     "label": "Prezzo",
+     "values": [
+      {
+       "key": "450",
+       "value": "450 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shippable",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_type",
+     "label": "Metodo di spedizione",
+     "values": [
+      {
+       "key": "0",
+       "value": "Spedizione con TuttoSubito",
+       "weight": 1
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/item_shipping_cost_tuttosubito",
+     "label": "Costo della spedizione",
+     "values": [
+      {
+       "key": "7,99",
+       "value": "7,99 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shipping_allowed",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_package_size",
+     "label": "Peso del pacco",
+     "values": [
+      {
+       "key": "30",
+       "value": "Grande - fino a 15kg",
+       "weight": 2
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/shipping_carriers",
+     "label": "Corrieri per la spedizione",
+     "values": [
+      {
+       "key": "ups",
+       "value": "ups"
+      },
+      {
+       "key": "bartolini",
+       "value": "bartolini"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_condition",
+     "label": "Condizione",
+     "values": [
+      {
+       "key": "40",
+       "value": "Buono - usato ma ben conservato",
+       "weight": 4,
+       "description": "Oggetto usato che potrebbe presentare segni di usura ma ben conservato."
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "504",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "8",
+     "uri": "/region",
+     "value": "Emilia-Romagna",
+     "friendly_name": "emilia-romagna",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "8,12,2,3,4,6,9"
+    },
+    "city": {
+     "key": "1",
+     "uri": "/city",
+     "value": "Bologna",
+     "label": "Provincia",
+     "friendly_name": "bologna",
+     "short_name": "BO",
+     "level": 1,
+     "istat": "037",
+     "region_id": "8"
+    },
+    "town": {
+     "key": "037009",
+     "uri": "/town",
+     "value": "Calderara di Reno",
+     "label": "Comune",
+     "level": 2,
+     "istat": "037009",
+     "region_id": "8",
+     "city_id": "1",
+     "has_zone": false,
+     "friendly_name": "calderara-di-reno",
+     "lat": 44.565786,
+     "lon": 11.27161
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000004.htm",
+    "mobile": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000004.htm"
+   }
+  },
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000005:list:900000005",
+   "type": {
+    "key": "s",
+    "value": "In vendita",
+    "weight": 0
+   },
+   "category": {
+    "key": "44",
+    "value": "Console e Videogiochi",
+    "friendly_name": "videogiochi",
+    "macrocategory_id": "9",
+    "weight": 24
+   },
+   "subject": "PlayStation 4 PS4 slim + 3 controller + 3 giochi",
+   "body": "Descrizione di esempio dell'annuncio 5.",
+   "dates": {
+    "display": "2026-11-21 13:40:35",
+    "expiration": "2027-11-21 13:40:35",
+    "display_iso8601": "2026-11-21T13:40:35.339+0100",
+    "expiration_iso8601": "2027-11-21T13:40:35.339+0100"
+   },
+   "images": [
+    {
+     "uri": "imgid:fake-5",
+     "base_url": "https://images.example.test/subito/5",
+     "cdn_base_url": "https://images.example.test/subito/5"
+    }
+   ],
+   "images_360": [],
+   "features": [
+    {
+     "type": "number",
+     "uri": "/item_shipping_cost_tuttosubito",
+     "label": "Costo della spedizione",
+     "values": [
+      {
+       "key": "2,99",
+       "value": "2,99 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shipping_allowed",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_package_size",
+     "label": "Peso del pacco",
+     "values": [
+      {
+       "key": "20",
+       "value": "Medio - fino a 5kg",
+       "weight": 1
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/shipping_carriers",
+     "label": "Corrieri per la spedizione",
+     "values": [
+      {
+       "key": "poste_italiane",
+       "value": "poste_italiane"
+      },
+      {
+       "key": "ups",
+       "value": "ups"
+      },
+      {
+       "key": "inpost",
+       "value": "inpost"
+      },
+      {
+       "key": "bartolini",
+       "value": "bartolini"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_condition",
+     "label": "Condizione",
+     "values": [
+      {
+       "key": "20",
+       "value": "Come nuovo - perfetto o ricondizionato",
+       "weight": 2,
+       "description": "Oggetto in perfette condizioni oppure rigenerato con parti sostitutive senza difetti."
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/price",
+     "label": "Prezzo",
+     "values": [
+      {
+       "key": "200",
+       "value": "200 €"
+      }
+     ]
+    },
+    {
+     "type": "bool",
+     "uri": "/item_shippable",
+     "label": "Disponibile alla spedizione",
+     "values": [
+      {
+       "key": "1",
+       "value": "Sì"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_shipping_type",
+     "label": "Metodo di spedizione",
+     "values": [
+      {
+       "key": "0",
+       "value": "Spedizione con TuttoSubito",
+       "weight": 1
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "505",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "15",
+     "uri": "/region",
+     "value": "Campania",
+     "friendly_name": "campania",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "15,11,14,16,17"
+    },
+    "city": {
+     "key": "1",
+     "uri": "/city",
+     "value": "Avellino",
+     "label": "Provincia",
+     "friendly_name": "avellino",
+     "short_name": "AV",
+     "level": 1,
+     "istat": "064",
+     "region_id": "15"
+    },
+    "town": {
+     "key": "064008",
+     "uri": "/town",
+     "value": "Avellino",
+     "label": "Comune",
+     "level": 2,
+     "istat": "064008",
+     "region_id": "15",
+     "city_id": "1",
+     "has_zone": false,
+     "friendly_name": "avellino",
+     "lat": 40.913937,
+     "lon": 14.795297
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000005.htm",
+    "mobile": "https://www.subito.it/videogiochi/annuncio-di-esempio-900000005.htm"
+   }
+  }
+ ]
+}

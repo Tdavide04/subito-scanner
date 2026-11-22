@@ -1,0 +1,239 @@
+{
+ "count_all": 756,
+ "lines": 2,
+ "start": 2,
+ "filters": {
+  "lim": "",
+  "q": "libri",
+  "sort": "",
+  "start": "",
+  "t": "In regalo"
+ },
+ "ads": [
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000007:list:900000007",
+   "type": {
+    "key": "g",
+    "value": "In regalo",
+    "weight": 0
+   },
+   "category": {
+    "key": "38",
+    "value": "Libri e Riviste",
+    "friendly_name": "libri-riviste",
+    "macrocategory_id": "18",
+    "weight": 38
+   },
+   "subject": "lotto libri ",
+   "body": "Descrizione di esempio dell'annuncio 7.",
+   "dates": {
+    "display": "2026-11-21 14:43:39",
+    "expiration": "2027-11-21 14:43:39",
+    "display_iso8601": "2026-11-21T14:43:39.147+0100",
+    "expiration_iso8601": "2027-11-21T14:43:39.147+0100"
+   },
+   "images": [],
+   "images_360": [],
+   "features": [
+    {
+     "type": "list",
+     "uri": "/item_condition",
+     "label": "Condizione",
+     "values": [
+      {
+       "key": "50",
+       "value": "Danneggiato - usato con parti guaste",
+       "weight": 5,
+       "description": "Oggetto con parti non funzionanti, danneggiate o mancanti."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/book_type",
+     "label": "Tipologia",
+     "values": [
+      {
+       "key": "10",
+       "value": "Altro",
+       "weight": 8
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "507",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "9",
+     "uri": "/region",
+     "value": "Toscana",
+     "friendly_name": "toscana",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "9,10,11,12,3,8"
+    },
+    "city": {
+     "key": "7",
+     "uri": "/city",
+     "value": "Pisa",
+     "label": "Provincia",
+     "friendly_name": "pisa",
+     "short_name": "PI",
+     "level": 1,
+     "istat": "050",
+     "region_id": "9"
+    },
+    "town": {
+     "key": "050026",
+     "uri": "/town",
+     "value": "Pisa",
+     "label": "Comune",
+     "level": 2,
+     "istat": "050026",
+     "region_id": "9",
+     "city_id": "7",
+     "has_zone": false,
+     "friendly_name": "pisa",
+     "lat": 43.715461,
+     "lon": 10.401088
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/libri-riviste/annuncio-di-esempio-900000007.htm",
+    "mobile": "https://www.subito.it/libri-riviste/annuncio-di-esempio-900000007.htm"
+   }
+  },
+  {
+   "urn": "id:ad:00000000-0000-0000-0000-000000000008:list:900000008",
+   "type": {
+    "key": "g",
+    "value": "In regalo",
+    "weight": 0
+   },
+   "category": {
+    "key": "38",
+    "value": "Libri e Riviste",
+    "friendly_name": "libri-riviste",
+    "macrocategory_id": "18",
+    "weight": 38
+   },
+   "subject": "Desideri liberarti da libri vecchi e non?",
+   "body": "Descrizione di esempio dell'annuncio 8.",
+   "dates": {
+    "display": "2026-11-21 13:18:10",
+    "expiration": "2027-01-13 13:17:31",
+    "display_iso8601": "2026-11-21T13:18:10.653+0100",
+    "expiration_iso8601": "2027-01-13T13:17:31.94+0100"
+   },
+   "images": [
+    {
+     "uri": "imgid:fake-8",
+     "base_url": "https://images.example.test/subito/8",
+     "cdn_base_url": "https://images.example.test/subito/8"
+    }
+   ],
+   "images_360": [],
+   "features": [
+    {
+     "type": "list",
+     "uri": "/book_type",
+     "label": "Tipologia",
+     "values": [
+      {
+       "key": "2",
+       "value": "Letteratura e Narrativa",
+       "weight": 0
+      }
+     ]
+    },
+    {
+     "type": "number",
+     "uri": "/price",
+     "label": "Prezzo",
+     "values": [
+      {
+       "key": "0",
+       "value": "0 €"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "uri": "/item_condition",
+     "label": "Condizione",
+     "values": [
+      {
+       "key": "40",
+       "value": "Buono - usato ma ben conservato",
+       "weight": 4,
+       "description": "Oggetto usato che potrebbe presentare segni di usura ma ben conservato."
+      }
+     ]
+    }
+   ],
+   "advertiser": {
+    "user_id": "508",
+    "name": "",
+    "company": false,
+    "type": 0
+   },
+   "geo": {
+    "region": {
+     "key": "4",
+     "uri": "/region",
+     "value": "Lombardia",
+     "friendly_name": "lombardia",
+     "label": "Regione",
+     "level": 0,
+     "neighbors": "4,2,5,6,8"
+    },
+    "city": {
+     "key": "2",
+     "uri": "/city",
+     "value": "Brescia",
+     "label": "Provincia",
+     "friendly_name": "brescia",
+     "short_name": "BS",
+     "level": 1,
+     "istat": "017",
+     "region_id": "4"
+    },
+    "town": {
+     "key": "017128",
+     "uri": "/town",
+     "value": "Ossimo",
+     "label": "Comune",
+     "level": 2,
+     "istat": "017128",
+     "region_id": "4",
+     "city_id": "2",
+     "has_zone": false,
+     "friendly_name": "ossimo",
+     "lat": 45.946231,
+     "lon": 10.229297
+    },
+    "uri": "/geo",
+    "label": "Comune",
+    "type": "geo"
+   },
+   "urls": {
+    "default": "https://www.subito.it/libri-riviste/annuncio-di-esempio-900000008.htm",
+    "mobile": "https://www.subito.it/libri-riviste/annuncio-di-esempio-900000008.htm"
+   },
+   "visibility_options": {
+    "gallery": true,
+    "urgent": false,
+    "homepage_recommender": true,
+    "detail_recommender": true
+   }
+  }
+ ]
+}
