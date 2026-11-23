@@ -1,13 +1,16 @@
-"""Subito.it adapter for Personal Collection Hub: the public search API, read-only."""
-from collections.abc import Mapping
+"""Subito Scanner: read-only search of Subito.it public listings, as a library and a command line tool."""
 
-from subito_scanner.adapter import AD_TYPES, CONDITIONS, DEFAULT_POLICY, REGIONS, SEARCH_URL, SubitoAdapter, normalize
+__version__ = "0.2.0"
 
-__version__ = "0.1.0"
+from subito_scanner.config import DEFAULT_CONFIG, ScannerConfig, SubitoScannerConfig  # noqa: E402
+from subito_scanner.errors import InvalidQueryError, PermanentSubitoError, SubitoError, TransientSubitoError  # noqa: E402
+from subito_scanner.models import SubitoListing, SubitoPage, SubitoRejected  # noqa: E402
+from subito_scanner.query import AD_TYPES, REGIONS, SubitoQuery, validate_params  # noqa: E402
+from subito_scanner.scanner import CONDITIONS, SEARCH_URL, SubitoScanner, normalize  # noqa: E402
 
-__all__ = ["AD_TYPES", "CONDITIONS", "DEFAULT_POLICY", "REGIONS", "SEARCH_URL", "SubitoAdapter", "create_adapter", "normalize"]
-
-
-def create_adapter(settings: Mapping[str, str]) -> SubitoAdapter:
-    """Entry point factory (`pch.marketplaces`): Subito needs no settings."""
-    return SubitoAdapter()
+__all__ = [
+    "AD_TYPES", "CONDITIONS", "DEFAULT_CONFIG", "REGIONS", "SEARCH_URL",
+    "InvalidQueryError", "PermanentSubitoError", "ScannerConfig", "SubitoError", "SubitoListing", "SubitoPage",
+    "SubitoQuery", "SubitoRejected", "SubitoScanner", "SubitoScannerConfig", "TransientSubitoError",
+    "normalize", "validate_params",
+]
