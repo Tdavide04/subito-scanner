@@ -1,98 +1,68 @@
-"""Subito adapter, written from scratch (Personal Collection Hub ADR-0011): the upstream SubitoScanner has no licence, so no code is
+"""Subito scanner, written from scratch (Personal Collection Hub ADR-0011): the upstream SubitoScanner has no licence, so no code is
 taken from it. Everything here comes from observed behaviour of the public search API
 (`hades.subito.it/v1/search/items`): parameter names confirmed by the `filters` echo of real responses,
 fields read from real (anonymized) responses in tests/fixtures.
+
+Read-only: one GET per page, paced by `RateLimitedHttp`. No login, no cookies kept on purpose, no CAPTCHA handling.
 """
-import re
+from collections.abc import Callable, Iterator
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from typing import Any
 
-from pch_marketplace_kit.domain import ListingCandidate
-from pch_marketplace_kit.adapter import InvalidParams, Page, PermanentMarketplaceError, Rejected
-from pch_marketplace_kit.http import HttpPolicy, MarketplaceHttp
+from subito_scanner.config import DEFAULT_CONFIG, SubitoScannerConfig
+from subito_scanner.errors import PermanentSubitoError
+from subito_scanner.http import RateLimitedHttp
+from subito_scanner.models import SubitoListing, SubitoPage, SubitoRejected
+from subito_scanner.query import SubitoQuery, validate_params
 
 SEARCH_URL = "https://hades.subito.it/v1/search/items"
-DEFAULT_POLICY = HttpPolicy(min_interval_s=3.0, timeout_s=30.0, max_retries=3, backoff_base_s=2.0, backoff_cap_s=60.0, max_retry_after_s=120.0)
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0",
     "Accept": "application/json",
     "X-Subito-Channel": "web",
 }
-# region keys as echoed by the API for r=1..20
-REGIONS = {
-    "1": "Valle d'Aosta", "2": "Piemonte", "3": "Liguria", "4": "Lombardia", "5": "Trentino-Alto Adige", "6": "Veneto",
-    "7": "Friuli-Venezia Giulia", "8": "Emilia-Romagna", "9": "Toscana", "10": "Umbria", "11": "Lazio", "12": "Marche",
-    "13": "Abruzzo", "14": "Molise", "15": "Campania", "16": "Puglia", "17": "Basilicata", "18": "Calabria",
-    "19": "Sardegna", "20": "Sicilia",
-}
-AD_TYPES = {"s": "In vendita", "g": "In regalo"}
 # /item_condition keys: 10 Nuovo, 20 Come nuovo, 30 Ottimo, 40 Buono, 50 Danneggiato
 CONDITIONS = {"10": "new", "20": "like_new", "30": "good", "40": "fair", "50": "poor"}
-VEHICLES_MACROCATEGORY = "1"  # Motori: an item condition does not apply (ADR-0005)
+VEHICLES_MACROCATEGORY = "1"  # Motori: an item condition does not apply
 IMAGE_RULE = "?rule=gallery-desktop-1x-auto"  # the CDN base URL alone answers 400
-WHOLE_EUROS = re.compile(r"[0-9]{1,7}")
+# what a listing from this scanner can carry besides the required fields
+CAPABILITIES = frozenset({"description", "images", "location", "seller", "condition", "published_at"})
 
 
-class SubitoAdapter:
+class SubitoScanner:
+    """Searches Subito.it. One instance per process: its HTTP client paces every request it makes.
+
+    `pages()` and `search()` take a `SubitoQuery`; `validate_params()` and `fetch_page()` work on plain
+    params dictionaries, for applications that store queries as JSON.
+    """
+
     marketplace = "subito"
-    capabilities = frozenset({"description", "images", "location", "seller", "condition", "published_at"})
+    capabilities = CAPABILITIES
 
-    def __init__(self, policy: HttpPolicy = DEFAULT_POLICY, session: Any | None = None, **http_options: Any):
-        self._http = MarketplaceHttp("subito", policy, session=session, **http_options)
+    def __init__(
+        self,
+        config: SubitoScannerConfig = DEFAULT_CONFIG,
+        session: Any | None = None,
+        clock: Callable[[], float] | None = None,
+        sleep: Callable[[float], None] | None = None,
+        wall_clock: Callable[[], datetime] | None = None,
+        jitter: Callable[[float], float] | None = None,
+    ):
+        options: dict[str, Any] = {
+            name: value
+            for name, value in (("clock", clock), ("sleep", sleep), ("wall_clock", wall_clock), ("jitter", jitter))
+            if value is not None
+        }
+        self.config = config
+        self._http = RateLimitedHttp(config, session=session, **options)
 
     def validate_params(self, raw: dict[str, Any]) -> dict[str, Any]:
-        errors: list[tuple[tuple[str, ...], str]] = []
-        allowed = {"search_text", "category", "region", "type", "title_only", "shippable_only", "price_from", "price_to", "per_page"}
-        errors += [((key,), "unknown parameter") for key in raw if key not in allowed]
+        """Normalised params, or InvalidQueryError listing every problem."""
+        return validate_params(raw)
 
-        text = raw.get("search_text", "")
-        text = text.strip() if isinstance(text, str) else None
-        if text is None:
-            errors.append((("search_text",), "must be text"))
-        category = str(raw.get("category", "")).strip()
-        if category and not category.isdigit():
-            errors.append((("category",), "must be a numeric Subito category"))
-        region = str(raw.get("region", "")).strip()
-        if region and region not in REGIONS:
-            errors.append((("region",), "must be one of the 20 Italian regions"))
-        ad_type = raw.get("type", "s")
-        if ad_type not in AD_TYPES:
-            errors.append((("type",), "must be 's' (in vendita) or 'g' (in regalo)"))
-        flags = {}
-        for key in ("title_only", "shippable_only"):
-            value = raw.get(key, False)
-            if not isinstance(value, bool):
-                errors.append(((key,), "must be true or false"))
-            flags[key] = value is True
-        prices = {}
-        for key in ("price_from", "price_to"):
-            value = raw.get(key)
-            if value in (None, ""):
-                continue
-            if not isinstance(value, str) or not WHOLE_EUROS.fullmatch(value):
-                errors.append(((key,), 'whole euros as text, e.g. "50"'))
-            else:
-                prices[key] = value
-        if "price_from" in prices and "price_to" in prices and int(prices["price_from"]) > int(prices["price_to"]):
-            errors.append((("price_to",), "must not be lower than price_from"))
-        per_page = raw.get("per_page", 20)
-        if not isinstance(per_page, int) or isinstance(per_page, bool) or not 1 <= per_page <= 50:
-            errors.append((("per_page",), "must be a whole number between 1 and 50"))
-        if text == "" and not category:
-            errors.append((("search_text",), "enter a search text or a category"))
-        if errors:
-            raise InvalidParams(errors)
-
-        params: dict[str, Any] = {"search_text": text, "type": ad_type, **flags, "per_page": per_page}
-        if category:
-            params["category"] = category
-        if region:
-            params["region"] = region
-        params.update(prices)
-        return params
-
-    def fetch_page(self, params: dict[str, Any], cursor: Any | None) -> Page:
+    def fetch_page(self, params: dict[str, Any], cursor: int | None) -> SubitoPage:
+        """One page of results for already validated params; `cursor` is the offset from the previous page."""
         start = cursor or 0
         query: dict[str, Any] = {}
         for name, key in (("search_text", "q"), ("category", "c"), ("region", "r"), ("type", "t")):
@@ -110,17 +80,41 @@ class SubitoAdapter:
         data = self._http.get_json(SEARCH_URL, params=query, headers=HEADERS)
         ads = data.get("ads") if isinstance(data, dict) else None
         if not isinstance(ads, list):
-            raise PermanentMarketplaceError("subito: response without an 'ads' list (the API may have changed or blocked the request)")
-        candidates, rejected = [], []
+            raise PermanentSubitoError("subito: response without an 'ads' list (the API may have changed or blocked the request)")
+        listings, rejected = [], []
         for raw in ads:
             try:
-                candidates.append(normalize(raw))
+                listings.append(normalize(raw))
             except (ValueError, TypeError, KeyError, InvalidOperation, AttributeError, IndexError) as exc:
-                rejected.append(Rejected(external_id=_list_id(raw) if isinstance(raw, dict) else None, reason=str(exc)))
+                rejected.append(SubitoRejected(external_id=_list_id(raw) if isinstance(raw, dict) else None, reason=str(exc)))
         total = data.get("count_all")
         next_start = start + params["per_page"]
         more = isinstance(total, int) and next_start < total and len(ads) > 0
-        return Page(candidates=candidates, rejected=rejected, next_cursor=next_start if more else None, newest_first=True)
+        return SubitoPage(listings=listings, rejected=rejected, next_cursor=next_start if more else None, newest_first=True)
+
+    def pages(self, query: SubitoQuery, max_pages: int = 3) -> Iterator[SubitoPage]:
+        """Pages newest first, stopping after `max_pages` or at the last page. Requests are made lazily."""
+        if max_pages < 1:
+            raise ValueError("max_pages must be at least 1")
+        params = validate_params(query.to_params())
+        cursor: int | None = None
+        for _ in range(max_pages):
+            page = self.fetch_page(params, cursor)
+            yield page
+            if page.next_cursor is None:
+                return
+            cursor = page.next_cursor
+
+    def search(self, query: SubitoQuery, max_pages: int = 1) -> list[SubitoListing]:
+        """Listings from up to `max_pages` pages, newest first, each ad once (ads can move between pages)."""
+        seen: set[str] = set()
+        listings: list[SubitoListing] = []
+        for page in self.pages(query, max_pages=max_pages):
+            for listing in page.listings:
+                if listing.external_id not in seen:
+                    seen.add(listing.external_id)
+                    listings.append(listing)
+        return listings
 
 
 def _list_id(ad: dict[str, Any]) -> str | None:
@@ -133,7 +127,7 @@ def _list_id(ad: dict[str, Any]) -> str | None:
 def _feature(ad: dict[str, Any], uri: str) -> dict[str, Any] | None:
     for feature in ad.get("features") or []:
         if isinstance(feature, dict) and feature.get("uri") == uri and feature.get("values"):
-            return feature["values"][0]
+            return feature["values"][0]  # type: ignore[no-any-return]
     return None
 
 
@@ -146,8 +140,8 @@ def _amount(value: dict[str, Any] | None) -> Decimal | None:
     return Decimal(text).quantize(Decimal("0.01"))
 
 
-def normalize(ad: Any) -> ListingCandidate:
-    """One search result → Listing Candidate. Gift ads are free (never a zero price); a missing price is missing."""
+def normalize(ad: Any) -> SubitoListing:
+    """One search result → SubitoListing. Gift ads are free (never a zero price); a missing price is missing."""
     if not isinstance(ad, dict):
         raise ValueError("ad is not a JSON object")
     gift = (ad.get("type") or {}).get("key") == "g"
@@ -166,6 +160,8 @@ def normalize(ad: Any) -> ListingCandidate:
 
     category = ad.get("category") or {}
     condition_value = _feature(ad, "/item_condition")
+    condition: str | None
+    condition_raw: str | None
     if category.get("macrocategory_id") == VEHICLES_MACROCATEGORY:
         condition, condition_raw = "not_applicable", None
     else:
@@ -183,10 +179,10 @@ def normalize(ad: Any) -> ListingCandidate:
     advertiser = ad.get("advertiser") or {}
     images = [f"{img['cdn_base_url']}{IMAGE_RULE}" for img in ad.get("images") or [] if isinstance(img, dict) and img.get("cdn_base_url")]
 
-    return ListingCandidate(
-        external_id=_list_id(ad),
-        title=ad.get("subject"),
-        url=(ad.get("urls") or {}).get("default"),
+    return SubitoListing(
+        external_id=_list_id(ad),  # type: ignore[arg-type]  # None is rejected by SubitoListing
+        title=ad.get("subject"),  # type: ignore[arg-type]
+        url=(ad.get("urls") or {}).get("default"),  # type: ignore[arg-type]
         price_status="free" if gift else "priced" if price is not None else "missing",
         price_amount=price,
         currency="EUR" if price is not None else None,
@@ -195,10 +191,10 @@ def normalize(ad: Any) -> ListingCandidate:
         location=location,
         seller_external_id=str(advertiser["user_id"]) if advertiser.get("user_id") else None,
         seller_name=advertiser.get("name") or None,
-        condition=condition,
+        condition=condition,  # type: ignore[arg-type]
         condition_raw=condition_raw,
         published_at=published,
-        shipping_status=shipping_status,
+        shipping_status=shipping_status,  # type: ignore[arg-type]
         shipping_amount=shipping_amount,
         raw_payload=ad,
     )

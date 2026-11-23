@@ -1,5 +1,5 @@
-"""Subito adapter (clean-room, ADR-0011): params, normalization of real anonymized pages (generic item, car, gift),
-offset paging and errors with a fake transport. No network."""
+"""Subito scanner (clean-room, ADR-0011): params, normalization of real anonymized pages (generic item, car, gift),
+offset paging, pages()/search() and errors with a fake transport. No network."""
 import json
 from datetime import UTC, datetime
 from decimal import Decimal
@@ -7,12 +7,19 @@ from pathlib import Path
 
 import pytest
 
-from pch_marketplace_kit.adapter import InvalidParams, PermanentMarketplaceError, TransientMarketplaceError
-from subito_scanner import REGIONS, SubitoAdapter, normalize
-from pch_marketplace_kit.testing import FakeSession, FakeTime, response
-from pch_marketplace_kit.http import HttpPolicy
+from subito_scanner import (
+    REGIONS,
+    InvalidQueryError,
+    PermanentSubitoError,
+    SubitoQuery,
+    SubitoScanner,
+    SubitoScannerConfig,
+    TransientSubitoError,
+    normalize,
+)
+from subito_scanner.testing import FakeSession, FakeTime, response
 
-FAST = HttpPolicy(min_interval_s=0, timeout_s=5, max_retries=0, backoff_base_s=0, backoff_cap_s=0, max_retry_after_s=0)
+FAST = SubitoScannerConfig(min_interval_s=0, timeout_s=5, max_retries=0, backoff_base_s=0, backoff_cap_s=0, max_retry_after_s=0)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -24,22 +31,22 @@ def load(name: str) -> dict:
 SEARCH, VEHICLE, GIFT = load("search_page"), load("vehicle_page"), load("gift_page")
 
 
-def adapter(outcomes) -> tuple[SubitoAdapter, FakeSession]:
+def adapter(outcomes, config=FAST) -> tuple[SubitoScanner, FakeSession]:
     time = FakeTime()
     session = FakeSession(time, outcomes)
-    return SubitoAdapter(policy=FAST, session=session, clock=time.clock, sleep=time.sleep), session
+    return SubitoScanner(config=config, session=session, clock=time.clock, sleep=time.sleep), session
 
 
 # --- params -----------------------------------------------------------------------------------
 
 def test_params_defaults():
-    assert SubitoAdapter().validate_params({"search_text": " resident evil "}) == {
+    assert SubitoScanner().validate_params({"search_text": " resident evil "}) == {
         "search_text": "resident evil", "type": "s", "title_only": False, "shippable_only": False, "per_page": 20,
     }
 
 
 def test_full_params():
-    params = SubitoAdapter().validate_params({
+    params = SubitoScanner().validate_params({
         "search_text": "resident evil", "category": "44", "region": "6", "type": "s", "title_only": True,
         "shippable_only": True, "price_from": "5", "price_to": "50", "per_page": 30,
     })
@@ -61,8 +68,8 @@ def test_full_params():
     ],
 )
 def test_invalid_params(raw, loc):
-    with pytest.raises(InvalidParams) as exc:
-        SubitoAdapter().validate_params(raw)
+    with pytest.raises(InvalidQueryError) as exc:
+        SubitoScanner().validate_params(raw)
     assert loc in [error_loc for error_loc, _ in exc.value.errors]
 
 
@@ -138,7 +145,7 @@ def test_first_page_sends_hades_params_and_pages_by_offset():
     assert call["url"] == "https://hades.subito.it/v1/search/items"
     assert call["params"] == {"q": "resident evil", "c": "44", "r": "6", "t": "s", "qso": "true", "shp": "true", "pe": "50", "lim": 20, "start": 0, "sort": "datedesc"}
     assert call["headers"]["X-Subito-Channel"] == "web"
-    assert len(page.candidates) == 5 and page.newest_first is True
+    assert len(page.listings) == 5 and page.newest_first is True
     assert page.next_cursor == 20  # count_all is far larger
 
 
@@ -152,10 +159,10 @@ def test_offset_cursor_and_last_page():
 
 def test_unexpected_schema_is_permanent_and_errors_propagate():
     subito, _ = adapter([response(200, {"error": "nope"})])
-    with pytest.raises(PermanentMarketplaceError, match="ads"):
+    with pytest.raises(PermanentSubitoError, match="ads"):
         subito.fetch_page(subito.validate_params({"search_text": "x"}), None)
     subito, _ = adapter([response(503)])
-    with pytest.raises(TransientMarketplaceError):
+    with pytest.raises(TransientSubitoError):
         subito.fetch_page(subito.validate_params({"search_text": "x"}), None)
 
 
@@ -163,8 +170,74 @@ def test_malformed_ads_become_rejected():
     broken = {**SEARCH, "ads": [SEARCH["ads"][0], {"urn": "x", "subject": ""}, "nope"]}
     subito, _ = adapter([response(200, broken)])
     page = subito.fetch_page(subito.validate_params({"search_text": "x"}), None)
-    assert len(page.candidates) == 1 and len(page.rejected) == 2
+    assert len(page.listings) == 1 and len(page.rejected) == 2
 
 
 def test_capabilities():
-    assert SubitoAdapter.capabilities == frozenset({"description", "images", "location", "seller", "condition", "published_at"})
+    assert SubitoScanner.capabilities == frozenset({"description", "images", "location", "seller", "condition", "published_at"})
+
+
+# --- pages() and search() ---------------------------------------------------------------------
+
+def test_pages_follow_the_offset_and_stop_at_max_pages():
+    subito, session = adapter([response(200, SEARCH), response(200, SEARCH)])
+    pages = list(subito.pages(SubitoQuery(search_text="x", per_page=5), max_pages=2))
+    assert len(pages) == 2
+    assert [call["params"]["start"] for call in session.calls] == [0, 5]
+    assert all(call["params"]["lim"] == 5 for call in session.calls)
+
+
+def test_pages_stop_at_the_last_page():
+    subito, session = adapter([response(200, {**SEARCH, "count_all": 3})])
+    pages = list(subito.pages(SubitoQuery(search_text="x"), max_pages=3))
+    assert len(pages) == 1 and pages[0].next_cursor is None and len(session.calls) == 1
+
+
+def test_pages_are_lazy():
+    subito, session = adapter([response(200, SEARCH)])
+    iterator = subito.pages(SubitoQuery(search_text="x"))
+    assert session.calls == []
+    next(iterator)
+    assert len(session.calls) == 1
+
+
+def test_pages_rejects_zero_max_pages():
+    subito, _ = adapter([])
+    with pytest.raises(ValueError):
+        list(subito.pages(SubitoQuery(search_text="x"), max_pages=0))
+
+
+def test_search_defaults_to_one_page_and_returns_listings():
+    subito, session = adapter([response(200, SEARCH)])
+    listings = subito.search(SubitoQuery(search_text="biohazard", region="4", price_to=25, shippable_only=True))
+    assert len(session.calls) == 1
+    assert session.calls[0]["params"] == {"q": "biohazard", "r": "4", "t": "s", "shp": "true", "pe": "25", "lim": 20, "start": 0, "sort": "datedesc"}
+    assert [listing.external_id for listing in listings] == [normalize(ad).external_id for ad in SEARCH["ads"]]
+
+
+def test_search_returns_each_ad_once_across_pages():
+    subito, _ = adapter([response(200, SEARCH), response(200, SEARCH)])
+    listings = subito.search(SubitoQuery(search_text="x", per_page=5), max_pages=2)
+    assert len(listings) == len(SEARCH["ads"])
+
+
+def test_search_propagates_transient_errors():
+    subito, _ = adapter([response(503)])
+    with pytest.raises(TransientSubitoError):
+        subito.search(SubitoQuery(search_text="x"))
+
+
+def test_default_config_is_the_historic_policy():
+    scanner = SubitoScanner()
+    assert scanner.config == SubitoScannerConfig(min_interval_s=3.0, timeout_s=30.0, max_retries=3, backoff_base_s=2.0, backoff_cap_s=60.0, max_retry_after_s=120.0)
+
+
+def test_request_headers_are_unchanged():
+    subito, session = adapter([response(200, SEARCH)])
+    subito.search(SubitoQuery(search_text="x"))
+    assert session.calls[0]["headers"] == {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0",
+        "Accept": "application/json",
+        "X-Subito-Channel": "web",
+    }
+    assert session.calls[0]["timeout"] == 5
